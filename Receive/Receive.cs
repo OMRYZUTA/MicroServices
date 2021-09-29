@@ -27,10 +27,13 @@ namespace Receive
                 consumer.Received += (model, ea) =>
                 {
                     var body = ea.Body.ToArray();
-             
-                    Summary summary = JsonConvert.DeserializeObject<Summary>(Encoding.UTF8.GetString(body));
-
-                    Console.WriteLine(" Reciever Received {0}", summary);
+                    string encryptedMessage = Encoding.UTF8.GetString(body);
+                    Console.WriteLine("Received encrypted message: {0}", encryptedMessage);
+                    string decryptedMessage = new Decryptor().Decrypt(encryptedMessage);
+                    Console.WriteLine("after decryption: {0}", decryptedMessage);
+                    Summary summary = JsonConvert.DeserializeObject<Summary>(decryptedMessage);
+    
+                    Console.WriteLine("Received after deserialization: {0}", summary);
                 };
                 channel.BasicConsume(queue: "summaries",
                                      autoAck: true,

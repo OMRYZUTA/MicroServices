@@ -27,8 +27,12 @@ namespace Send
 
                 foreach(var summary in summaryList)
                 {
-                    Console.WriteLine("summary before entering the queue" + summary);
-                    byte[] body = Encoding.Default.GetBytes(JsonConvert.SerializeObject(summary));
+                    Console.WriteLine("summary before entering the queue: " + summary);
+                    string jsonString = JsonConvert.SerializeObject(summary);
+                    string encriptedString = new Encriptor().Encript(jsonString);
+                    Console.WriteLine("summary in JSON: " + jsonString);
+                    Console.WriteLine("summary after encryption:" + encriptedString);
+                    byte[] body = Encoding.Default.GetBytes(encriptedString);
                     channel.BasicPublish(exchange: "",
                                     routingKey: "summaries",
                                     basicProperties: null,
