@@ -9,13 +9,16 @@ namespace Receive
 {
     class Receive
     {
+        private const string HOST = "localhost";
+        private const string QUEUE = "summaries";
+
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost" };
+            var factory = new ConnectionFactory() { HostName = HOST };
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "summaries",
+                channel.QueueDeclare(queue: QUEUE,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -32,8 +35,9 @@ namespace Receive
                     Summary summary = JsonConvert.DeserializeObject<Summary>(decryptedMessage);
     
                     Console.WriteLine("Received after deserialization: {0}", summary);
+                    Console.WriteLine();
                 };
-                channel.BasicConsume(queue: "summaries",
+                channel.BasicConsume(queue: QUEUE,
                                      autoAck: true,
                                      consumer: consumer);
 

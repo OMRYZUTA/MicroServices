@@ -4,13 +4,19 @@ using System.Security.Cryptography;
 
 namespace common
 {
-    public  class Encryptor : Encryption
+    public  class Encryptor 
     {
+        private readonly EncryptionContext Context;
+        public Encryptor()
+        {
+            Context = new EncryptionContext();
+        }
+
         public string Encrypt(string text)
         {
-            getKeyFromFile(KEY_FILE_NAME);
-            Aes cipher = createCipher(Key);
-            cipher.IV = Convert.FromBase64String(IVBase64);
+        
+            Aes cipher = Context.CreateCipher();
+            cipher.IV = Convert.FromBase64String(Context.IVBase64);
 
             ICryptoTransform cryptTransform = cipher.CreateEncryptor();
             byte[] plaintext = Encoding.UTF8.GetBytes(text);

@@ -5,7 +5,7 @@ namespace common
 {
     public class Summary
     {
-        public String Name { get; set; }
+        public string Name { get; set; }
         public DateTime Date { get; set; }
 
         [JsonIgnore]
