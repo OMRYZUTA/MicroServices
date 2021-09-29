@@ -28,7 +28,4 @@ Newtonsoft.Json;
  
  
  
- 
- 
-Below are demos of executing the executable.
 
