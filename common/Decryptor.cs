@@ -11,9 +11,8 @@ namespace common
     {
         public string Decrypt(string encryptedText)
         {
-            string key = getKeyFromFile(base.KEY_FILE_NAME);
-            Aes cipher = createCipher(key);
-            var IVBase64 = initSymmetricEncryptionKeyIV(key);
+            getKeyFromFile(KEY_FILE_NAME);
+            Aes cipher = createCipher(Key);
             cipher.IV = Convert.FromBase64String(IVBase64);
 
             ICryptoTransform cryptTransform = cipher.CreateDecryptor();

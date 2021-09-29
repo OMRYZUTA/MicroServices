@@ -13,6 +13,12 @@ namespace Send
     {
         static void Main(string[] args)
         {
+            //trial
+            //Console.WriteLine("Jah");
+            //string message = new Encriptor().Encript("Jah");
+            //Console.WriteLine(message); 
+            //Console.WriteLine(new Decryptor().Decrypt(message));
+
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -23,13 +29,16 @@ namespace Send
                                      autoDelete: false,
                                      arguments: null);
 
-                List<Summary> summaryList = generateRandomSummaryList();
 
-                foreach(var summary in summaryList)
+
+                int listCount = new Random().Next(2, 10);
+
+                while (listCount > 0)
                 {
+                    Summary summary = SummaryFactory.CreateRandomSummary();
                     Console.WriteLine("summary before entering the queue: " + summary);
                     string jsonString = JsonConvert.SerializeObject(summary);
-                    string encriptedString = new Encriptor().Encript(jsonString);
+                    string encriptedString = new Encryptor().Encrypt(jsonString);
                     Console.WriteLine("summary in JSON: " + jsonString);
                     Console.WriteLine("summary after encryption:" + encriptedString);
                     byte[] body = Encoding.Default.GetBytes(encriptedString);
@@ -37,25 +46,14 @@ namespace Send
                                     routingKey: "summaries",
                                     basicProperties: null,
                                     body: body);
+                    listCount--;
                 }
             }
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
         }
-        private static List<Summary> generateRandomSummaryList()
-        {
-            List<Summary> summaryList = new List<Summary>();
-            int listCount = new Random().Next(2, 10);
 
-            while (listCount > 0)
-            {
-                summaryList.Add(SummaryFactory.CreateRandomSummary());
-                listCount--;
-            }
-
-            return summaryList;
-        }
     }
 }
 

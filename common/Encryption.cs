@@ -10,26 +10,27 @@ namespace common
 {
     public abstract class Encryption
     {
+        protected string IVBase64;
+        protected string Key;
         protected readonly string KEY_FILE_NAME = "key.txt";
-        protected string getKeyFromFile(string filename)
+        protected void getKeyFromFile(string filename)
         {
-            string key;
             try
             {
                 // Open the text file using a stream reader.
                 using (var sr = new StreamReader(filename))
                 {
                     // Read the stream as a string, and write the string to the console.
-                    key = sr.ReadToEnd();
+                    Key = sr.ReadLine();
+                    IVBase64 = sr.ReadLine();
                 }
             }
             catch (IOException e)
             {
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
-                key = "not found";
             }
-            return key;
+            
         }
         protected Aes createCipher(string keyBase64)
         {
@@ -42,11 +43,11 @@ namespace common
 
             return cipher;
         }
-        protected string initSymmetricEncryptionKeyIV(string key)
+        protected string initSymmetricEncryptionIV(string key)
         {
             Aes cipher = createCipher(key);
             var IVBase64 = Convert.ToBase64String(cipher.IV);
-            return IVBase64;
+            return "Og1RfmnlzsLMDUO8qhZ9qw ==";
         }
     }
 }

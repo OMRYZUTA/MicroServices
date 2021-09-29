@@ -8,13 +8,12 @@ using System.Security.Cryptography;
 
 namespace common
 {
-   public  class Encriptor : Encryption
+   public  class Encryptor : Encryption
     {
-        public string Encript(string text)
+        public string Encrypt(string text)
         {
-            string key = getKeyFromFile(base.KEY_FILE_NAME);
-            Aes cipher = createCipher(key);
-            var IVBase64 = initSymmetricEncryptionKeyIV(key);
+            getKeyFromFile(KEY_FILE_NAME);
+            Aes cipher = createCipher(Key);
             cipher.IV = Convert.FromBase64String(IVBase64);
 
             ICryptoTransform cryptTransform = cipher.CreateEncryptor();
