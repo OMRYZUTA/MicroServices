@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -12,7 +8,7 @@ namespace common
     {
         protected string IVBase64;
         protected string Key;
-        protected readonly string KEY_FILE_NAME = "key.txt";
+        protected readonly string KEY_FILE_NAME = "secrets.txt";
         protected void getKeyFromFile(string filename)
         {
             try
@@ -32,22 +28,17 @@ namespace common
             }
             
         }
+
         protected Aes createCipher(string keyBase64)
         {
             // Default values: Keysize 256, Padding PKC27
             Aes cipher = Aes.Create();
-            cipher.Mode = CipherMode.CBC;  // Ensure the integrity of the ciphertext if using CBC
+            cipher.Mode = CipherMode.CBC;  // Ensure the integrity of the cipher text if using CBC
 
             cipher.Padding = PaddingMode.ISO10126;
             cipher.Key = Convert.FromBase64String(keyBase64);
 
             return cipher;
-        }
-        protected string initSymmetricEncryptionIV(string key)
-        {
-            Aes cipher = createCipher(key);
-            var IVBase64 = Convert.ToBase64String(cipher.IV);
-            return "Og1RfmnlzsLMDUO8qhZ9qw ==";
         }
     }
 }

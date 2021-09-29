@@ -1,9 +1,6 @@
 ﻿using System;
 using RabbitMQ.Client;
 using System.Text;
-using System.Text.Json;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using common;
 
@@ -13,12 +10,6 @@ namespace Send
     {
         static void Main(string[] args)
         {
-            //trial
-            //Console.WriteLine("Jah");
-            //string message = new Encriptor().Encript("Jah");
-            //Console.WriteLine(message); 
-            //Console.WriteLine(new Decryptor().Decrypt(message));
-
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -53,7 +44,6 @@ namespace Send
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
         }
-
     }
 }
 

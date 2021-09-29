@@ -2,8 +2,6 @@
 using RabbitMQ.Client.Events;
 using System;
 using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using common;
 
